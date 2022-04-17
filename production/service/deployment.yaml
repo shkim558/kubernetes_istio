@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: 
+  labels:
+    app: 
+    version: canary
+  namespace: 
+spec:
+  minReadySeconds: 5
+  replicas: 3
+  selector:
+    matchLabels:
+      app: 
+      version: canary
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 50%
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: 
+        version: canary
+    spec:
+      containers:
+      - image: 
+        resources:
+          requests:
+            cpu: 1100m
+            memory: 2000Mi
+          limits:
+            cpu: 1200m
+            memory: 2200Mi
+        imagePullPolicy: Always
+        name: 
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sleep", "10"]
+        readinessProbe:
+          httpGet:
+            path: /health/check
+            port: 3010
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      terminationGracePeriodSeconds: 15
+      serviceAccountName: 

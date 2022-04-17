@@ -1,0 +1,41 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: 
+  region: us-west-2
+
+vpc:
+  subnets:
+    private:
+      us-west-2a:
+        id: ""
+      us-west-2b: 
+        id: ""
+  clusterEndpoints:
+    privateAccess: true
+    publicAccess: true
+
+iam:
+  serviceRoleARN: 
+  withOIDC: true
+
+nodeGroups:
+  - name: 
+    subnets:
+      - us-west-2a
+      - us-west-2b
+    tags:
+      k8s.io/cluster-autoscaler/<clusterName>: "owned"
+      k8s.io/cluster-autoscaler/enabled: "true"
+    instanceType: c5a.xlarge
+    instanceName: 
+    minSize: 1
+    maxSize: 30
+    desiredCapacity: 2
+    volumeSize: 50
+    iam:
+      instanceRoleARN: 
+    ssh:
+      publicKeyName: global
+    privateNetworking: true
